@@ -5,7 +5,7 @@ window.onload = function() {
 	context2d.fillRect(0, 0, c.width, 64);
 	context2d.font = "12px sans-serif";
 
-	var lag, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
+	var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
 	var context2d, audioContext, recorder, tracks=[];
 	var styles = ["#fff","#f0f","#ff0","#0ff","#0f0","#fa0"];
 	var data1024 = new Uint8Array(1024);
@@ -53,6 +53,7 @@ window.onload = function() {
 			} else {
 				if (stop) {
 					stop = 0;
+					mode = !mode;
 				}
 				else if (playing) {
 					stop = 1;
@@ -149,18 +150,31 @@ window.onload = function() {
 	function draw(time) {
 		context2d.clearRect(0, 0, c.width, c.height);
 
+		var dWidth = c.width / data128.length
 		context2d.lineWidth = 1;
 		for (var i=0; i<5; ++i) {
 			if (!i || tracks[i].au.src) {
 				tracks[i].an.getByteFrequencyData(data128);
-				context2d.strokeStyle = stop ? "#000" : styles[i];
-				context2d.beginPath();
-				for (var j = data128.length/2; j >= 0; --j) {
-					var y = 541 - data128[j]*2;
-					context2d.moveTo((j+1)*15, y);
-					context2d.lineTo(j*15, y);
+
+				if (mode) {
+					for (var j = data128.length-1; j >= 0; --j) {
+						var h = data128[j]/-255 * c.height;
+						var gradient = context2d.createLinearGradient(0, c.height, 0, c.height + h);
+						gradient.addColorStop(0, "rgba(0,0,0,0)");
+						gradient.addColorStop(1, stop ? "#000" : styles[i]);
+						context2d.fillStyle = gradient;
+						context2d.fillRect((j + i/5) * dWidth, c.height, 1, h);
+					}
+				} else {
+					context2d.strokeStyle = stop ? "#000" : styles[i];
+					context2d.beginPath();
+					for (var j = data128.length/2; j >= 0; --j) {
+						var y = 541 - data128[j]*2;
+						context2d.moveTo((j+1)*15, y);
+						context2d.lineTo(j*15, y);
+					}
+					context2d.stroke();
 				}
-				context2d.stroke();
 			}
 		}
 
