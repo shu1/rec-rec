@@ -1,3 +1,4 @@
+// Shuichi Aizawa 2018
 "use strict";
 
 document.title = "rec-rec"
