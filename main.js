@@ -1,16 +1,16 @@
 "use strict";
 
 window.onload = function() {
-	context2d = c.getContext("2d");
+	var context2d = c.getContext("2d");
 	context2d.fillRect(0, 0, c.width, 64);
 	context2d.font = "12px sans-serif";
 
+	var audioContext, recorder, tracks=[];
 	var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
-	var context2d, audioContext, recorder, tracks=[];
 	var styles = ["#fff","#f0f","#ff0","#0ff","#0f0","#fa0"];
+	var fishHeight = (c.height-64)/4;
 	var data1024 = new Uint8Array(1024);
 	var data128 = new Uint8Array(128);
-	var fishHeight = (c.height-64)/4;
 
 	navigator.mediaDevices.getUserMedia({audio:true})
 	.then(function(stream) {
@@ -178,12 +178,13 @@ window.onload = function() {
 			}
 		}
 
+		var offset = (data1024.length - c.width)/2
 		gAnalyser.getByteTimeDomainData(data1024);
 		context2d.fillStyle = "#000";
 		context2d.beginPath();
 		context2d.moveTo(c.width, 0);
 		for (var i = c.width; i >= 0; --i) {
-			context2d.lineTo(i, data1024[i + 32]/2);	// 32 = (data1024.length - c.width)/2;
+			context2d.lineTo(i, data1024[i + offset]/2);
 		}
 		context2d.lineTo(0,0);
 		context2d.fill();
