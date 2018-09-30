@@ -1,5 +1,23 @@
 "use strict";
 
+document.title = "rec-rec"
+
+var meta = document.createElement('meta');
+meta.name = "viewport";
+meta.content = "user-scalable=no,width=960";
+document.head.appendChild(meta);
+
+var style = document.body.style;
+style.background = "#000";
+style.color = "#ddd";
+style.width = 960;
+style.marginLeft = "auto";
+style.marginRight = "auto";
+
+c.width = 960;
+c.height = 540;
+c.style.background = "linear-gradient(#00f,#f04)";
+
 var context2d = c.getContext("2d");
 context2d.fillRect(0, 0, c.width, 64);
 context2d.font = "12px sans-serif";
