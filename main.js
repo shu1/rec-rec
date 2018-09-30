@@ -33,12 +33,12 @@ Tap the area above the water (at the top of the canvas) to <b>stop</b> at the en
 Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
 document.body.appendChild(p);
 
-var audioContext, recorder, tracks=[];
 var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
+var audioContext, recorder, tracks=[];
 var styles = ["#fff","#f0f","#ff0","#0ff","#0f0","#fa0"];
 var fishHeight = (c.height-64)/4;
-var data1024 = new Uint8Array(1024);
 var data128 = new Uint8Array(128);
+var data1024 = new Uint8Array(1024);
 
 navigator.mediaDevices.getUserMedia({audio:true})
 .then(function(stream) {
