@@ -30,7 +30,7 @@ Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</s
 Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop. Double-tap to change track visualization.<br>
 <br>
 <b>Microphone</b> required for recording.<br>
-Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`
+Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
 document.body.appendChild(p);
 
 var audioContext, recorder, tracks=[];
