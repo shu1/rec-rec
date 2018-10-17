@@ -39,21 +39,6 @@ var fishHeight = (c.height-64)/4;
 var data128 = new Uint8Array(128);
 var data1024 = new Uint8Array(1024);
 
-navigator.mediaDevices.getUserMedia({audio:true})
-.then(function(stream) {
-	gStream = stream;
-//	c.onmousedown();	// png autoplay
-
-	recorder = new MediaRecorder(stream);
-	recorder.ondataavailable = function(e) {
-		tracks[recIndex].au.src = URL.createObjectURL(e.data);
-		lag = audioContext.currentTime - playTime;
-		tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
-		tracks[recIndex].au.play();
-		recIndex = 0;
-	}
-})
-
 for (var i=0; i<6; ++i) {
 	tracks[i] = {};
 	tracks[i].of = 0;
@@ -68,6 +53,21 @@ var generator = setInterval(function() {
 //		c.onmousedown();	// png autoplay
 	}
 },0);
+
+navigator.mediaDevices.getUserMedia({audio:true})
+.then(function(stream) {
+	gStream = stream;
+//	c.onmousedown();	// png autoplay
+
+	recorder = new MediaRecorder(stream);
+	recorder.ondataavailable = function(e) {
+		tracks[recIndex].au.src = URL.createObjectURL(e.data);
+		lag = audioContext.currentTime - playTime;
+		tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
+		tracks[recIndex].au.play();
+		recIndex = 0;
+	}
+})
 
 c.onmousedown = function(e) {
 	if (audioContext) {
@@ -133,7 +133,34 @@ function play() {
 	playing = 1;
 	for (var i=0; i<5; ++i) {
 		if (tracks[i].bu) {
-			playBuffer(i);
+			var source = audioContext.createBufferSource();
+			source.buffer = tracks[i].bu;
+			source.connect(tracks[i].an);
+			source.start(0);
+
+			source.onended = function() {
+				if (stop) {
+					stop = 0;
+					playing = 0;
+				} else {
+					playTime = audioContext.currentTime;
+					if (recorder && recIndex) {
+						if (recording) {
+							recorder.stop();
+							recording = 0;
+							gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+							lag = audioContext.currentTime - playTime;
+							tracks[recIndex].of += lag;
+						} else {
+							gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+							recorder.start();
+							recording = 1;
+							tracks[recIndex].of = lag = audioContext.currentTime - playTime;
+						}
+					}
+					play();
+				}
+			}
 		}
 		else if (tracks[i].au.src) {
 			var dt = audioContext.currentTime - playTime;
@@ -142,39 +169,6 @@ function play() {
 		}
 	}
 	lag = 0;
-}
-
-function playBuffer(i) {
-	var source = audioContext.createBufferSource();
-	source.buffer = tracks[i].bu;
-	source.connect(tracks[i].an);
-	source.start(0);
-
-	if (!i) {
-		source.onended = function() {
-			if (stop) {
-				stop = 0;
-				playing = 0;
-			} else {
-				playTime = audioContext.currentTime;
-				if (recorder && recIndex) {
-					if (recording) {
-						recorder.stop();
-						recording = 0;
-						gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-						lag = audioContext.currentTime - playTime;
-						tracks[recIndex].of += lag;
-					} else {
-						gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-						recorder.start();
-						recording = 1;
-						tracks[recIndex].of = lag = audioContext.currentTime - playTime;
-					}
-				}
-				play();
-			}
-		}
-	}
 }
 
 function draw(time) {
