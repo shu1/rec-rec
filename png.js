@@ -339,7 +339,7 @@ a.font = "12px sans-serif";
 
 var p = document.createElement("p");
 p.style.color = "#ddd";
-p.innerHTML = `Make a rap with loops! Talk into your <b>mic</b> to make the loops.<br>Tap anywhere on the canvas to <b>start</b>. The water surface shows the audio waveform, the bubbles show each track's spectrogram.<br>Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</span> when selected. On the next loop, a <span style="color:#fff">white</span> waveform will appear from the sound of the mic, and the fish will eat the sound. From the next loop, the fish will play back the sound.<br>Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop. Double-tap to change track visualization.<br><br><b>Microphone</b> required for recording.<br>Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
+p.innerHTML = `Make a rap with loops! Tap anywhere on the canvas to <b>start</b>.<br>Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</span> when selected. On the next loop, a <span style="color:#fff">white</span> waveform will appear from the sound of the mic. Talk into your <b>mic</b> and the fish will eat the sound. From the next loop, the fish will play back the sound.<br>Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap again to change visualizers.<br><br><b>Microphone</b> required for recording.<br>Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
 document.body.appendChild(p);
 
 var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
@@ -618,7 +618,7 @@ function draw(time) {
 		fpsCount = 0;
 	}
 	a.fillStyle = "#fff";
-	a.fillText(fpsText + (stop ? " stop" : ""), 1, 12);
+	a.fillText(fpsText, 1, 12);
 
 	requestAnimationFrame(draw);
 }
