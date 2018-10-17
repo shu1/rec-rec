@@ -42,6 +42,8 @@ var data1024 = new Uint8Array(1024);
 navigator.mediaDevices.getUserMedia({audio:true})
 .then(function(stream) {
 	gStream = stream;
+//	c.onmousedown();	// png autoplay
+
 	recorder = new MediaRecorder(stream);
 	recorder.ondataavailable = function(e) {
 		tracks[recIndex].au.src = URL.createObjectURL(e.data);
@@ -50,7 +52,6 @@ navigator.mediaDevices.getUserMedia({audio:true})
 		tracks[recIndex].au.play();
 		recIndex = 0;
 	}
-//	c.onmousedown();	// png autoplay
 })
 
 for (var i=0; i<6; ++i) {
@@ -64,6 +65,7 @@ player.init(song);	// png inline song json
 var generator = setInterval(function() {
 	if (generated = player.generate() >= 1) {
 		clearInterval(generator);
+//		c.onmousedown();	// png autoplay
 	}
 },0);
 

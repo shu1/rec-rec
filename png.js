@@ -352,6 +352,8 @@ var data1024 = new Uint8Array(1024);
 navigator.mediaDevices.getUserMedia({audio:true})
 .then(function(stream) {
 	gStream = stream;
+	c.onmousedown();
+
 	recorder = new MediaRecorder(stream);
 	recorder.ondataavailable = function(e) {
 		tracks[recIndex].au.src = URL.createObjectURL(e.data);
@@ -360,7 +362,6 @@ navigator.mediaDevices.getUserMedia({audio:true})
 		tracks[recIndex].au.play();
 		recIndex = 0;
 	}
-	c.onmousedown();
 })
 
 for (var i=0; i<6; ++i) {
@@ -374,6 +375,7 @@ player.init({songData:[{i:[0,255,116,1,0,255,116,0,1,0,4,6,35,0,0,0,0,0,0,2,14,0
 var generator = setInterval(function() {
 	if (generated = player.generate() >= 1) {
 		clearInterval(generator);
+		c.onmousedown();
 	}
 },0);
 
