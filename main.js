@@ -50,6 +50,7 @@ navigator.mediaDevices.getUserMedia({audio:true})
 		tracks[recIndex].au.play();
 		recIndex = 0;
 	}
+//	c.onmousedown();	// png autoplay
 })
 
 for (var i=0; i<6; ++i) {
