@@ -18,7 +18,7 @@ c.width = 960;
 c.height = 540;
 c.style.background = "linear-gradient(#00f,#f04)";
 
-var a = c.getContext("2d");
+var a = c.getContext("2d");	// png remove
 a.fillRect(0, 0, c.width, 64);
 a.font = "12px sans-serif";
 
@@ -29,7 +29,7 @@ Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</s
 Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap again to change visualizers.<br>
 <br>
 <b>Microphone</b> required for recording.<br>
-Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
+Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;	// png make one line
 document.body.appendChild(p);
 
 var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
@@ -59,7 +59,7 @@ for (var i=0; i<6; ++i) {
 }
 
 var player = new CPlayer();
-player.init(song);
+player.init(song);	// png inline song json
 var generator = setInterval(function() {
 	if (generated = player.generate() >= 1) {
 		clearInterval(generator);
