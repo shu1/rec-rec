@@ -45,6 +45,29 @@ for (var i=0; i<6; ++i) {
 	if (i > 0) tracks[i].au = new Audio();
 }
 
+if (window.MediaRecorder) {
+	navigator.mediaDevices.getUserMedia({audio:true})
+	.then(function(stream) {
+		gStream = stream;
+//		c.onmousedown();	// png autoplay
+
+		recorder = new MediaRecorder(stream);
+		recorder.ondataavailable = function(e) {
+			tracks[recIndex].au.src = URL.createObjectURL(e.data);
+			lag = audioContext.currentTime - playTime;
+			tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
+			tracks[recIndex].au.play();
+			recIndex = 0;
+		}
+	})
+	.catch(function(e) {
+		gStream = 1;
+//		c.onmousedown();	// png autoplay
+	});
+} else {
+	gStream = 1;
+}
+
 var player = new CPlayer();
 player.init(song);	// png inline song json
 var generator = setInterval(function() {
@@ -53,21 +76,6 @@ var generator = setInterval(function() {
 //		c.onmousedown();	// png autoplay
 	}
 },0);
-
-navigator.mediaDevices.getUserMedia({audio:true})
-.then(function(stream) {
-	gStream = stream;
-//	c.onmousedown();	// png autoplay
-
-	recorder = new MediaRecorder(stream);
-	recorder.ondataavailable = function(e) {
-		tracks[recIndex].au.src = URL.createObjectURL(e.data);
-		lag = audioContext.currentTime - playTime;
-		tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
-		tracks[recIndex].au.play();
-		recIndex = 0;
-	}
-})
 
 c.onmousedown = function(e) {
 	if (audioContext) {
@@ -107,12 +115,12 @@ c.onmousedown = function(e) {
 			if (i < 5) {
 				tracks[i].an.connect(gainNode);
 			}
-				
-			if (i == 5) {
+
+			if (i == 5 && gStream != 1) {
 				var source = audioContext.createMediaStreamSource(gStream);
 				source.connect(tracks[i].an);
 			}
-			else if (i) {
+			else if (i && i<5) {
 				var source = audioContext.createMediaElementSource(tracks[i].au);
 				source.connect(tracks[i].an);
 			}

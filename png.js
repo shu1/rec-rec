@@ -355,6 +355,29 @@ for (var i=0; i<6; ++i) {
 	if (i > 0) tracks[i].au = new Audio();
 }
 
+if (window.MediaRecorder) {
+	navigator.mediaDevices.getUserMedia({audio:true})
+	.then(function(stream) {
+		gStream = stream;
+		c.onmousedown();
+
+		recorder = new MediaRecorder(stream);
+		recorder.ondataavailable = function(e) {
+			tracks[recIndex].au.src = URL.createObjectURL(e.data);
+			lag = audioContext.currentTime - playTime;
+			tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
+			tracks[recIndex].au.play();
+			recIndex = 0;
+		}
+	})
+	.catch(function(e) {
+		gStream = 1;
+		c.onmousedown();
+	});
+} else {
+	gStream = 1;
+}
+
 var player = new CPlayer();
 player.init({songData:[{i:[0,255,116,1,0,255,116,0,1,0,4,6,35,0,0,0,0,0,0,2,14,0,0,32,0,0,0,0],p:[1],c:[{n:[135,,135,,,,135,135,,,135,,,,135,,135,,135,,,,135,135,,,135,,,,135],f:[]}]},{i:[0,160,128,1,0,160,128,0,1,210,4,7,41,0,0,0,60,4,1,2,255,0,0,32,61,5,32,6],p:[1],c:[{n:[,,,,135,,,,,,,,135,,,,,,,,135,,,,,,,,135],f:[]}]},{i:[0,0,140,0,0,0,140,0,0,60,4,10,34,0,0,0,187,5,0,1,239,135,0,32,108,5,16,4],p:[1],c:[{n:[135,,135,,,,135,135,135,,135,,,,135,135,135,,135,,,,135,135,135,,135,,,,135],f:[]}]}],rowLen:5513,patternLen:32,endPattern:0,numChannels:3});
 var generator = setInterval(function() {
@@ -363,21 +386,6 @@ var generator = setInterval(function() {
 		c.onmousedown();
 	}
 },0);
-
-navigator.mediaDevices.getUserMedia({audio:true})
-.then(function(stream) {
-	gStream = stream;
-	c.onmousedown();
-
-	recorder = new MediaRecorder(stream);
-	recorder.ondataavailable = function(e) {
-		tracks[recIndex].au.src = URL.createObjectURL(e.data);
-		lag = audioContext.currentTime - playTime;
-		tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
-		tracks[recIndex].au.play();
-		recIndex = 0;
-	}
-})
 
 c.onmousedown = function(e) {
 	if (audioContext) {
@@ -417,12 +425,12 @@ c.onmousedown = function(e) {
 			if (i < 5) {
 				tracks[i].an.connect(gainNode);
 			}
-				
-			if (i == 5) {
+
+			if (i == 5 && gStream != 1) {
 				var source = audioContext.createMediaStreamSource(gStream);
 				source.connect(tracks[i].an);
 			}
-			else if (i) {
+			else if (i && i<5) {
 				var source = audioContext.createMediaElementSource(tracks[i].au);
 				source.connect(tracks[i].an);
 			}
