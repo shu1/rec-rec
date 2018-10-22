@@ -390,6 +390,10 @@ var generator = setInterval(function() {
 c.onmousedown = function(e) {
 	if (audioContext) {
 		var i = Math.ceil(((e.touches ? e.touches[0].pageY : e.pageY) - c.offsetTop - 64) / fishHeight);
+		if (audioContext.currentTime - playTime > tracks[0].bu.duration) {
+			playing = 0;
+		}
+
 		if (i && playing) {
 			if (!recording) {
 				if (recIndex != i) {
