@@ -317,6 +317,8 @@ var CPlayer = function() {
 	};
 };
 
+// Shuichi Aizawa 2018 github.com/shu1
+
 document.title = "rec-rec"
 
 var meta = document.createElement('meta');

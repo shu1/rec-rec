@@ -1,4 +1,4 @@
-// Shuichi Aizawa 2018
+// Shuichi Aizawa 2018 github.com/shu1
 "use strict";
 
 document.title = "rec-rec"
