@@ -354,7 +354,7 @@ var data1024 = new Uint8Array(1024);
 for (var i=0; i<6; ++i) {
 	tracks[i] = {};
 	tracks[i].of = 0;
-	if (i > 0) tracks[i].au = new Audio();
+	if (i) tracks[i].au = new Audio();
 }
 
 if (window.MediaRecorder) {
