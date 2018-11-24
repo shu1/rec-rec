@@ -3,7 +3,7 @@
 
 document.title = "rec-rec"
 
-var meta = document.createElement('meta');
+var meta = document.createElement("meta");
 meta.name = "viewport";
 meta.content = "user-scalable=no,width=960";
 document.head.appendChild(meta);
@@ -32,7 +32,7 @@ Tap the area above the water (at the top of the canvas) to <b>stop</b> at the en
 Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;	// png make one line
 document.body.appendChild(p);
 
-var lag, mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
+var mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
 var audioContext, recorder, tracks=[];
 var styles = ["#fff","#f0f","#ff0","#0ff","#0f0","#fa0"];
 var fishHeight = (c.height-64)/4;
@@ -41,7 +41,6 @@ var data1024 = new Uint8Array(1024);
 
 for (var i=0; i<6; ++i) {
 	tracks[i] = {};
-	tracks[i].of = 0;
 	if (i) tracks[i].au = new Audio();
 }
 
@@ -54,8 +53,7 @@ if (window.MediaRecorder) {
 		recorder = new MediaRecorder(stream);
 		recorder.ondataavailable = function(e) {
 			tracks[recIndex].au.src = URL.createObjectURL(e.data);
-			lag = audioContext.currentTime - playTime;
-			tracks[recIndex].au.currentTime = 0.1 + lag + tracks[recIndex].of;
+			tracks[recIndex].au.currentTime = 0.1;
 			tracks[recIndex].au.play();
 			recIndex = 0;
 		}
@@ -163,13 +161,10 @@ function play() {
 							recorder.stop();
 							recording = 0;
 							gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-							lag = audioContext.currentTime - playTime;
-							tracks[recIndex].of += lag;
 						} else {
 							gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
 							recorder.start();
 							recording = 1;
-							tracks[recIndex].of = lag = audioContext.currentTime - playTime;
 						}
 					}
 					play();
@@ -177,12 +172,10 @@ function play() {
 			}
 		}
 		else if (tracks[i].au.src) {
-			var dt = audioContext.currentTime - playTime;
-			tracks[i].au.currentTime = dt + 0.1;
+			tracks[i].au.currentTime = 0.1;
 			tracks[i].au.play();
 		}
 	}
-	lag = 0;
 }
 
 function draw(time) {
