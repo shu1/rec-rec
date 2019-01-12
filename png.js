@@ -373,7 +373,7 @@ if (window.MediaRecorder) {
 	.catch(function(e) {
 		gStream = 1;
 		c.onmousedown();	// png autoplay
-	});
+	})
 } else {
 	gStream = 1;
 }
@@ -385,7 +385,7 @@ var generator = setInterval(function() {
 		clearInterval(generator);
 		c.onmousedown();	// png autoplay
 	}
-},0);
+},0)
 
 c.onmousedown = function(e) {
 	if (audioContext) {
@@ -448,7 +448,7 @@ c.onmousedown = function(e) {
 			playTime = audioContext.currentTime;
 			play();
 			draw(0);
-		});
+		})
 	}
 }
 
