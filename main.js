@@ -18,7 +18,6 @@ c.width = 960;
 c.height = 540;
 c.style.background = "linear-gradient(#00f,#f04)";
 
-var a = c.getContext("2d");	// png remove
 a.fillRect(0, 0, c.width, 64);
 a.font = "12px sans-serif";
 
@@ -48,7 +47,7 @@ if (window.MediaRecorder) {
 	navigator.mediaDevices.getUserMedia({audio:true})
 	.then(function(stream) {
 		gStream = stream;
-//		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 
 		recorder = new MediaRecorder(stream);
 		recorder.ondataavailable = function(e) {
@@ -60,7 +59,7 @@ if (window.MediaRecorder) {
 	})
 	.catch(function(e) {
 		gStream = 1;
-//		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 	})
 } else {
 	gStream = 1;
@@ -71,13 +70,13 @@ player.init(song);	// png inline song json
 var generator = setInterval(function() {
 	if (generated = player.generate() >= 1) {
 		clearInterval(generator);
-//		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 	}
 },0)
 
 c.onmousedown = function(e) {
 	if (audioContext) {
-//		audioContext.resume();	// png autoplay
+		audioContext.resume();	// autoplay
 
 		var i = Math.ceil(((e.touches ? e.touches[0].pageY : e.pageY) - c.offsetTop - 64) / fishHeight);
 		if (audioContext.currentTime - playTime > tracks[0].bu.duration) {
