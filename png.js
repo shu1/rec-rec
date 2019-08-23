@@ -321,10 +321,14 @@ var CPlayer = function() {
 
 document.title = "rec-rec"
 
-var meta = document.createElement("meta");
-meta.name = "viewport";
-meta.content = "user-scalable=no,width=960";
-document.head.appendChild(meta);
+function meta(name, content) {
+	var meta = document.createElement("meta");
+	meta.name = name;
+	meta.content = content;
+	document.head.appendChild(meta);
+}
+meta("viewport", "user-scalable=no,width=960");
+meta("monetization", "$coil.xrptipbot.com/MoH6t6gjRPyZ9rYOYuj_Sw");
 
 var style = document.body.style;
 style.background = "#000";
