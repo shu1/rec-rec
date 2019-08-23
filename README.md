@@ -1,4 +1,4 @@
-# rec-rec
+# [rec-rec](https://shu1.github.io/rec-rec/)
 
 Remake of [Rec-Rec](https://www.youtube.com/watch?v=9NEivOPy1EE) from [Electroplankton](https://en.wikipedia.org/wiki/Electroplankton) for Nintendo DS.  
 Submitted to [js13kGames 2018](https://js13kgames.com/entries/rec-rec).  
