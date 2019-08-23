@@ -341,7 +341,7 @@ a.font = "12px sans-serif";
 
 var p = document.createElement("p");
 p.style.color = "#ddd";
-p.innerHTML = `Make a rap with loops! Tap anywhere on the canvas to <b>start</b>.<br>Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</span> when selected. On the next loop, a <span style="color:#fff">white</span> waveform will appear from the sound of the mic. Talk into your <b>mic</b> and the fish will eat the sound. From the next loop, the fish will play back the sound.<br>Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap again to change visualizers.<br><br><b>Microphone</b> required for recording.<br>Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
+p.innerHTML = `Make a rap with loops! Tap anywhere on the canvas to <b>start</b>.<br>Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</span> when selected. On the next loop, a <span style="color:#fff">white</span> waveform will appear from the sound of the mic. Talk into your <b>mic</b> and the fish will eat the sound. From the next loop, the fish will play back the sound.<br>Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap there again to change visualizers.<br><br><b>Microphone</b> required for recording.<br>Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;
 document.body.appendChild(p);
 
 var mode, stop, playing, recording, recIndex, generated, gainNode, gAnalyser, gStream, playTime, fpsCount=0, fpsTime=0, fpsText="";
@@ -360,7 +360,7 @@ if (window.MediaRecorder) {
 	navigator.mediaDevices.getUserMedia({audio:true})
 	.then(function(stream) {
 		gStream = stream;
-		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 
 		recorder = new MediaRecorder(stream);
 		recorder.ondataavailable = function(e) {
@@ -372,7 +372,7 @@ if (window.MediaRecorder) {
 	})
 	.catch(function(e) {
 		gStream = 1;
-		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 	})
 } else {
 	gStream = 1;
@@ -383,13 +383,13 @@ player.init({songData:[{i:[0,255,116,1,0,255,116,0,1,0,4,6,35,0,0,0,0,0,0,2,14,0
 var generator = setInterval(function() {
 	if (generated = player.generate() >= 1) {
 		clearInterval(generator);
-		c.onmousedown();	// png autoplay
+		c.onmousedown();	// autoplay
 	}
 },0)
 
 c.onmousedown = function(e) {
 	if (audioContext) {
-		audioContext.resume();	// png autoplay
+		audioContext.resume();	// autoplay
 
 		var i = Math.ceil(((e.touches ? e.touches[0].pageY : e.pageY) - c.offsetTop - 64) / fishHeight);
 		if (audioContext.currentTime - playTime > tracks[0].bu.duration) {
@@ -622,8 +622,8 @@ function draw(time) {
 		fpsTime = time;
 		fpsCount = 0;
 	}
-	a.fillStyle = "#fff";
-	a.fillText(fpsText, 1, 12);
+	a.fillStyle = "#333";
+	a.fillText(fpsText, 1, 10);
 
 	requestAnimationFrame(draw);
 }

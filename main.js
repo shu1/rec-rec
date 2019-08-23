@@ -25,7 +25,7 @@ var p = document.createElement("p");
 p.style.color = "#ddd";
 p.innerHTML = `Make a rap with loops! Tap anywhere on the canvas to <b>start</b>.<br>
 Tap on any of the 4 <b>fish</b>, it will turn <span style="color:#fa0">orange</span> when selected. On the next loop, a <span style="color:#fff">white</span> waveform will appear from the sound of the mic. Talk into your <b>mic</b> and the fish will eat the sound. From the next loop, the fish will play back the sound.<br>
-Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap again to change visualizers.<br>
+Tap the area above the water (at the top of the canvas) to <b>stop</b> at the end of the loop, the visualizer will turn <span style="color:#777">black</span>. Tap there again to change visualizers.<br>
 <br>
 <b>Microphone</b> required for recording.<br>
 Due to lack of support for the MediaRecorder API, <b>recording will not work on iOS/Safari/Edge</b>. It works on Android/Chrome/Firefox.`;	// png make one line
@@ -309,8 +309,8 @@ function draw(time) {
 		fpsTime = time;
 		fpsCount = 0;
 	}
-	a.fillStyle = "#fff";
-	a.fillText(fpsText, 1, 12);
+	a.fillStyle = "#333";
+	a.fillText(fpsText, 1, 10);
 
 	requestAnimationFrame(draw);
 }
